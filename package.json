@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "css-select": "^2.1.0",
     "css-tree": "^1.0.0-alpha.39",
     "react": "16.9.0",

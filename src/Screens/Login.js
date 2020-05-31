@@ -1,34 +1,84 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Image, StatusBar } from "react-native";
-import Svg, { Ellipse } from "react-native-svg";
-import TextboxTela from "../components/forms/Login/txtTela";
-import ButtonLogar from "../components/forms/Login/btnLogar";
-import ButtonCadastrar from "../components/forms/Login/btnCadastrar";
+import { StyleSheet, View, Image, StatusBar, TouchableOpacity, Text, TextInput } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-function loginScreen(props) {   
-  return (
-    <View style={styles.container}>
-      <View style={styles.group3}>
-        <View style={styles.group}>
-            <Image
-            source={require("../../assets/images/1.png")}
-            resizeMode="center"
-            style={styles.image}>
-            </Image>
-        </View>
-        <TextboxTela secure={false} loginpwd={"login"} labeltext={"Usuário"} style={styles.materialRightIconTextbox}></TextboxTela>
-        <View style={styles.group2}>
-          <TextboxTela secure={true} loginpwd={"key"} labeltext={"Senha"} style={styles.materialRightIconTextbox1}></TextboxTela>
-          <View style={styles.materialButtonViolet1Row}>
-          <ButtonLogar style={styles.ButtonLogar}></ButtonLogar>
-            <View style={styles.materialButtonViolet1Filler}></View>
-            <ButtonCadastrar style={styles.btnCadastro}></ButtonCadastrar>
+async function getPokemon() {
+    var axios = require('axios')
+    var url = 'https://pokeapi.co/api/v2/pokemon'
+    const response = await axios.get(url);
+    console.log("Aqui funciona")
+    console.log(response.data.results[0].name)
+    return (response);  
+}
+
+type Props={};
+export default class App extends Component<Props> {
+
+  constructor(props){
+    super(props)
+    this.state = {usuario:"a", senha:""}
+    this.logar = this.logar.bind(this)
+    this.cadastrar_novo = this.cadastrar_novo.bind(this)
+  }
+
+  logar(){
+   
+    var r = getPokemon()
+    console.log("Aqui n")
+    console.log(r)
+    
+    // let s = this.state
+    // s.usuario = "b"
+    // this.setState(s)
+    
+    // console.log(this.state.usuario)
+
+  }
+
+  cadastrar_novo(){
+    alert("cadastrar_novo")
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.group3}>
+          <View style={styles.group}>
+              <Image
+              source={require("../../assets/images/1.png")}
+              resizeMode="center"
+              style={styles.image}>
+              </Image>
+          </View>          
+
+          <View style={styles.group2}>
+            <View style={[txt_log_pwd_styles.container, styles.materialRightIconTextbox]}>
+              <TextInput secureTextEntry={false} placeholder={"Usuário"} style={[txt_log_pwd_styles.inputStyle]} ></TextInput>
+              <Icon name={"login"} style={[txt_log_pwd_styles.iconStyle]}></Icon>
+            </View>
           </View>
+
+          <View style={[txt_log_pwd_styles.container, styles.materialRightIconTextbox]}>
+            <TextInput secureTextEntry={false} placeholder={"Senha"} style={[txt_log_pwd_styles.inputStyle]} ></TextInput>
+            <Icon name={"key"} style={[txt_log_pwd_styles.iconStyle]}></Icon>
+          </View>
+          
+            
+          <View style={styles.div_entre_texts_buttons}>
+              <TouchableOpacity onPress={this.logar} style={btn_logar_styles.container}>
+                <Text style={btn_logar_styles.caption}>Logar</Text>
+              </TouchableOpacity>
+              <View style={styles.div_entre_log_cad}></View>
+              <TouchableOpacity onPress={this.cadastrar_novo} style={btn_cadastrar_styles.container}>
+                <Text style={btn_cadastrar_styles.caption}>Cadastrar</Text>
+              </TouchableOpacity>
+          </View>
+          
         </View>
+        <StatusBar animated={false} hidden={true} backgroundColor="rgba(255,255,255,1)"></StatusBar>
       </View>
-      <StatusBar animated={false} hidden={true} backgroundColor="rgba(255,255,255,1)"></StatusBar>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -51,11 +101,7 @@ const styles = StyleSheet.create({
     height: 522,
     marginTop: 109,
     alignSelf: "center"
-  },
-  ellipse: {
-    width: 263,
-    height: 270
-  },
+  },  
   image: {
     width: 229,
     height: 252,
@@ -67,28 +113,92 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(230, 230, 230,1)",
     marginTop: 72
   },
-  materialRightIconTextbox1: {
-    width: 264,
-    height: 43,
-    backgroundColor: "rgba(230, 230, 230,1)"
-  },
-  materialButtonViolet1: {
-    width: 100,
-    height: 36
-  },
-  materialButtonViolet1Filler: {
+  div_entre_log_cad: {
     flex: 1,
     flexDirection: "row"
   },
-  materialButtonDanger: {
-    width: 100,
-    height: 36
-  },
-  materialButtonViolet1Row: {
+  div_entre_texts_buttons: {
     height: 36,
     flexDirection: "row",
     marginTop: 30
   }
 });
 
-export default loginScreen;
+const btn_logar_styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#3F51B5",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight: 16,
+    paddingLeft: 16,
+    elevation: 2,
+    minWidth: 88,
+    borderRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    },
+    shadowColor: "#000",
+    shadowOpacity: 0.35,
+    shadowRadius: 5
+  },
+  caption: {
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: "roboto-regular"
+  }
+});
+
+const btn_cadastrar_styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F44336",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingRight: 16,
+    paddingLeft: 16,
+    elevation: 2,
+    minWidth: 88,
+    borderRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    },
+    shadowColor: "#000",
+    shadowOpacity: 0.35,
+    shadowRadius: 5
+  },
+  caption: {
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: "roboto-regular"
+  }
+});
+
+const txt_log_pwd_styles = StyleSheet.create({
+  container: {
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "#D9D5DC",
+    borderBottomWidth: 1,
+  },
+  inputStyle: {
+    flex: 1,
+    color: "#000",
+    alignSelf: "stretch",
+    paddingTop: 14,
+    paddingRight: 16,
+    paddingBottom: 8,
+    fontSize: 16,
+    fontFamily: "roboto-regular",
+    lineHeight: 16
+  },
+  iconStyle: {
+    color: "#616161",
+    fontFamily: "Roboto",
+    fontSize: 24,
+    paddingRight: 8
+  }
+});

@@ -1,23 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
-
-// class btnCadastrar extends Component {
-//   render() {
-//     return(
-//       <TouchableOpacity>Clique aqui</TouchableOpacity>
-//     )
-//   }
-// }
-
-// class lblCadastrar extends Component {
-//   render() {
-//     return(
-//       <Text>testando componente label</Text>
-//     )
-//   }
-// }
-
 function ButtonCadastrar(props) {    
   return (
     <TouchableOpacity onPress={()=>{cadastrar_novo()}} style={[styles.container, props.style]}>

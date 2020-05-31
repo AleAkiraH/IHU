@@ -3,15 +3,11 @@ import { StyleSheet, TouchableOpacity, Text } from "react-native";
 
 function ButtonLogar(props) {
   return (
-    <TouchableOpacity onPress={()=>{logar_sistema()}} style={[styles.container, props.style]}>
+    <TouchableOpacity onPress={this.calcular} style={[styles.container, props.style]}>
       <Text style={styles.caption}>Logar</Text>
     </TouchableOpacity>
   );
 }
-
-function logar_sistema() {
-  alert("Usuario: Jhessica Weysen !")
-} 
 
 const styles = StyleSheet.create({
   container: {

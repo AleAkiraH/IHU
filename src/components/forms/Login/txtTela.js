@@ -5,13 +5,13 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 function TextboxTela(props) {
   return (
     <View style={[styles.container, props.style]}>
-      <TextInput secureTextEntry={props.secure} placeholder={props.labeltext} style={styles.inputStyle}></TextInput>
+      <TextInput secureTextEntry={props.secure} placeholder={props.labeltext} style={styles.inputStyle} ></TextInput>
       <Icon name={props.loginpwd} style={styles.iconStyle}></Icon>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const txt_log_pwd_styles = StyleSheet.create({
   container: {
     backgroundColor: "transparent",
     flexDirection: "row",
