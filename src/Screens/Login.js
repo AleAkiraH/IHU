@@ -2,78 +2,90 @@ import React, { Component } from "react";
 import { StyleSheet, View, Image, StatusBar, TouchableOpacity, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-async function getPokemon() {
-    var axios = require('axios')
-    var url = 'https://pokeapi.co/api/v2/pokemon'
-    const response = await axios.get(url);
-    console.log("Aqui funciona")
-    console.log(response.data.results[0].name)
-    return (response);  
-}
-
-type Props={};
+type Props = {};
 export default class App extends Component<Props> {
 
-  constructor(props){
+  constructor(props) {
     super(props)
-    this.state = {usuario:"a", senha:""}
-    this.logar = this.logar.bind(this)
+    this.state = {
+      usuario: "",
+      senha: "",
+    }
+    // this.logar = this.logar.bind(this)
     this.cadastrar_novo = this.cadastrar_novo.bind(this)
+    this.limpar_campos = this.limpar_campos.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
+    this.handlePassword = this.handlePassword.bind(this)
+    this.login = this.login.bind(this)
+  }
+  handleLogin = (text) => {
+    this.setState({ usuario: text })
+  }
+  handlePassword = (text) => {
+    this.setState({ senha: text })
+  }
+  login = () => {
+    alert('Usuario: ' + this.state.usuario + ' password: ' + this.state.senha)
+  }
+  limpar_campos() {
+    this.setState({
+      usuario: "",
+      senha: "",
+    })
+  }
+  cadastrar_novo() {
+    var axios = require('axios')
+    axios.get('https://pokeapi.co/api/v2/pokemon')
+      .then((responseJson) => {        
+        this.setState({
+          usuario: responseJson.data.results[5].name,
+          senha: responseJson.data.results[8].name,
+        })
+      });
   }
 
-  logar(){
-   
-    var r = getPokemon()
-    console.log("Aqui n")
-    console.log(r)
-    
-    // let s = this.state
-    // s.usuario = "b"
-    // this.setState(s)
-    
-    // console.log(this.state.usuario)
-
-  }
-
-  cadastrar_novo(){
-    alert("cadastrar_novo")
-  }
+  // consumo_API_POST() {
+  //   alert("Usuário: " + this.state.usuario + " Senha: " + this.state.senha)
+  // }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.group3}>
           <View style={styles.group}>
-              <Image
+            <Image
               source={require("../../assets/images/1.png")}
               resizeMode="center"
               style={styles.image}>
-              </Image>
-          </View>          
+            </Image>
+          </View>
 
           <View style={styles.group2}>
             <View style={[txt_log_pwd_styles.container, styles.materialRightIconTextbox]}>
-              <TextInput secureTextEntry={false} placeholder={"Usuário"} style={[txt_log_pwd_styles.inputStyle]} ></TextInput>
+              <TextInput value={this.state.usuario} onChangeText={this.handleLogin} secureTextEntry={false} placeholder={"Usuário"} style={[txt_log_pwd_styles.inputStyle]} ></TextInput>
               <Icon name={"login"} style={[txt_log_pwd_styles.iconStyle]}></Icon>
             </View>
           </View>
 
           <View style={[txt_log_pwd_styles.container, styles.materialRightIconTextbox]}>
-            <TextInput secureTextEntry={false} placeholder={"Senha"} style={[txt_log_pwd_styles.inputStyle]} ></TextInput>
+            <TextInput value={this.state.senha} onChangeText={this.handlePassword} secureTextEntry={true} placeholder={"Senha"} style={[txt_log_pwd_styles.inputStyle]} ></TextInput>
             <Icon name={"key"} style={[txt_log_pwd_styles.iconStyle]}></Icon>
           </View>
-          
-            
+
           <View style={styles.div_entre_texts_buttons}>
-              <TouchableOpacity onPress={this.logar} style={btn_logar_styles.container}>
-                <Text style={btn_logar_styles.caption}>Logar</Text>
-              </TouchableOpacity>
-              <View style={styles.div_entre_log_cad}></View>
-              <TouchableOpacity onPress={this.cadastrar_novo} style={btn_cadastrar_styles.container}>
-                <Text style={btn_cadastrar_styles.caption}>Cadastrar</Text>
-              </TouchableOpacity>
+            <TouchableOpacity onPress={this.login} style={btn_logar_styles.container}>
+              <Text style={btn_logar_styles.caption}>Logar</Text>
+            </TouchableOpacity>
+            <View style={styles.div_entre_log_cad}></View>
+            <TouchableOpacity onPress={this.cadastrar_novo} style={btn_cadastrar_styles.container}>
+              <Text style={btn_cadastrar_styles.caption}>Cadastrar</Text>
+            </TouchableOpacity>
           </View>
-          
+          <View style={styles.div_entre_texts_buttons}>
+            <TouchableOpacity onPress={this.limpar_campos} style={btn_cadastrar_styles.container}>
+              <Text style={btn_cadastrar_styles.caption}>limpar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <StatusBar animated={false} hidden={true} backgroundColor="rgba(255,255,255,1)"></StatusBar>
       </View>
@@ -101,7 +113,7 @@ const styles = StyleSheet.create({
     height: 522,
     marginTop: 109,
     alignSelf: "center"
-  },  
+  },
   image: {
     width: 229,
     height: 252,
